@@ -14,7 +14,7 @@ export const profile = {
     " math + cs @ ucla",
   /* Small pill tucked under your photo. Empty string hides it. */
   socials: [
-    { label: "github", href: "https://github.com/yourusername" },
+    { label: "github", href: "https://github.com/phiettran" },
     { label: "linkedin", href: "https://linkedin.com/in/phiet-tran" },
     { label: "resume", href: "/resume.pdf" },
   ],
