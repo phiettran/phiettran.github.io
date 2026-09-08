@@ -103,19 +103,15 @@ export const projects: Project[] = [
 export const facts = [
   { label: "currently", value: "building ampedai" },
   { label: "looping", value: "Mk.gee - Two Star and the Dream Police" },
-  { label: "hobbies", value: "mechanical keyboards i do not need" },
-  { label: "avoiding", value: "merge conflicts, my inbox" },
-  { label: "snack", value: "whatever is closest" },
-  { label: "hot take", value: "tabs. obviously." },
+  { label: "", value: "i like working out" },
+  { label: "", value: "big fashion demon" },
 ];
 
 /* Rapid-fire list. Short and a little unhinged. */
 export const trivia = [
-  "i have rewritten this portfolio four times.",
-  "i once debugged for six hours over a missing comma.",
-  "i name my branches after snacks.",
-  "my git history is a cry for help.",
-  "i will talk about typography unprompted.",
+  "learn head  and data consultant | datares @ ucla",
+  "active member of theta tau professional engineering fraternity",
+  "fashion and student trends (FAST) @ UCLA",
 ];
 
 /* Photos scattered through the about pile. Drop images in /public/about/
