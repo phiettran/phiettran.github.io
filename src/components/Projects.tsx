@@ -161,20 +161,22 @@ function Detail({
             ))}
           </div>
 
-          <ul className="mt-8 flex flex-wrap gap-2.5 border-t border-line pt-6">
-            {project.links.map((link) => (
-              <li key={link.label}>
-                <a
-                  href={link.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="chrome inline-block rounded-full bg-navy px-5 py-2.5 text-sm text-shell transition-all hover:-translate-y-0.5 hover:shadow-lift"
-                >
-                  {link.label} →
-                </a>
-              </li>
-            ))}
-          </ul>
+          {project.links && project.links.length > 0 && (
+            <ul className="mt-8 flex flex-wrap gap-2.5 border-t border-line pt-6">
+              {project.links.map((link) => (
+                <li key={link.label}>
+                  <a
+                    href={link.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="chrome inline-block rounded-full bg-navy px-5 py-2.5 text-sm text-shell transition-all hover:-translate-y-0.5 hover:shadow-lift"
+                  >
+                    {link.label} →
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
     </div>

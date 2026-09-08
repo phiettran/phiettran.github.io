@@ -39,7 +39,8 @@ export type Project = {
   shots: string[];
   /* Each string is its own paragraph in the expanded view. */
   description: string[];
-  links: { label: string; href: string }[];
+  /* Optional. Omit the field entirely if a project has no links to show. */
+  links?: { label: string; href: string }[];
 };
 
 export const projects: Project[] = [
@@ -50,15 +51,11 @@ export const projects: Project[] = [
     year: "2026",
     role: "Software and ML",
     tags: ["react", "Node.js", "TypeScript", "Vite", "SQLite", "OpenAI", "Tailwind", "Express"],
-    cover: "/projects/placeholder-02.png",
-    shots: ["/projects/placeholder-01.png", "/projects/placeholder-02.png"],
+    cover: "/projects/placeholder-02.jpg",
+    shots: ["/projects/placeholder-01.jpg", "/projects/placeholder-02.jpg"],
     description: [
       "sleep optimization device recording environmental metrics that actually track sleep quality (CO2 levels, humidity, temperature, light emission)",
       "We engineered a front-end dashboard delivering all the sensors metrics into a consolidated score and AI sleep recommendations to users",
-    ],
-    links: [
-      { label: "live demo", href: "https://example.com" },
-      { label: "source", href: "https://github.com/yourusername/project-one" },
     ],
   },
   {
@@ -74,10 +71,6 @@ export const projects: Project[] = [
       "replace this with what the project actually is. mention the constraint that shaped it — a 36 hour deadline, a tiny device, a hostile api.",
       "say what you specifically owned if it was a team build. recruiters read this part closely.",
     ],
-    links: [
-      { label: "devpost", href: "https://devpost.com" },
-      { label: "source", href: "https://github.com/yourusername/project-two" },
-    ],
   },
   {
     slug: "project-three",
@@ -92,7 +85,6 @@ export const projects: Project[] = [
       "replace this with what the project actually is. if it was research, name the question you were trying to answer.",
       "close with the result, even if the result was that it did not work. honest negative results read better than vague positive ones.",
     ],
-    links: [{ label: "source", href: "https://github.com/yourusername/project-three" }],
   },
   {
     slug: "project-four",
@@ -106,7 +98,6 @@ export const projects: Project[] = [
     description: [
       "replace this with what the project actually is. unfinished projects are fine to show if you are honest about where they stopped.",
     ],
-    links: [{ label: "source", href: "https://github.com/yourusername/project-four" }],
   },
 ];
 
