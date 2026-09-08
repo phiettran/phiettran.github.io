@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { profile } from "@/content/site";
-import Signature from "./Signature";
+import ParticleName from "./ParticleName";
 
 export default function Hero() {
   return (
@@ -8,8 +8,8 @@ export default function Hero() {
       <div className="mx-auto grid max-w-5xl items-center gap-12 md:grid-cols-[1.15fr_0.85fr]">
         <div className="animate-rise">
 
-          <h1 className="mt-1 max-w-[26rem]">
-            <Signature text={profile.name} />
+          <h1 className="mt-1 max-w-[32rem]">
+            <ParticleName text={profile.name} />
           </h1>
 
           <p className="chrome mt-4 text-lg text-muted">
