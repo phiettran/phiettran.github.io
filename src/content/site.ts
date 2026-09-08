@@ -102,8 +102,8 @@ export const projects: Project[] = [
 /* The label/value table. The part people actually remember. */
 export const facts = [
   { label: "currently", value: "building ampedai" },
-  { label: "looping", value: "one album, for three months straight" },
-  { label: "collecting", value: "mechanical keyboards i do not need" },
+  { label: "looping", value: "Mk.gee - Two Star and the Dream Police" },
+  { label: "hobbies", value: "mechanical keyboards i do not need" },
   { label: "avoiding", value: "merge conflicts, my inbox" },
   { label: "snack", value: "whatever is closest" },
   { label: "hot take", value: "tabs. obviously." },
@@ -116,4 +116,14 @@ export const trivia = [
   "i name my branches after snacks.",
   "my git history is a cry for help.",
   "i will talk about typography unprompted.",
+];
+
+/* Photos scattered through the about pile. Drop images in /public/about/
+   and list them here. Add or remove freely — the pile re-scatters itself.
+   `caption` is optional; leave it off and no caption strip is drawn. */
+export const photos: { src: string; alt: string; caption?: string }[] = [
+  { src: "/about/photo-01.svg", alt: "replace me", caption: "somewhere, 2026" },
+  { src: "/about/photo-02.svg", alt: "replace me" },
+  { src: "/about/photo-03.svg", alt: "replace me", caption: "the good chair" },
+  { src: "/about/photo-04.svg", alt: "replace me" },
 ];
