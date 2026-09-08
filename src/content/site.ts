@@ -7,14 +7,12 @@
 export const profile = {
   /* Also used for the animated cursive signature in the hero. */
   name: "phiet tran",
-  role: "software engineer",
-  location: "los angeles, ca",
+  role: "software engineer  ",
   email: "tranphiet@ucla.edu",
   /* Short, warm, first-person. Two or three sentences. */
   blurb:
-    "i build things that probably did not need to exist, and then i make them fast. currently studying at UCLA and turning caffeine into commits.",
+    " math + cs @ ucla",
   /* Small pill tucked under your photo. Empty string hides it. */
-  stamp: "open to work",
   socials: [
     { label: "github", href: "https://github.com/yourusername" },
     { label: "linkedin", href: "https://linkedin.com/in/phiet-tran" },

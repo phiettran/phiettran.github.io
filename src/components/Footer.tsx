@@ -4,12 +4,9 @@ export default function Footer() {
   return (
     <footer id="contact" className="px-5 pb-16 pt-8 sm:px-8 sm:pb-24">
       <div className="mx-auto max-w-5xl">
-        <div className="rounded-[var(--radius-soft)] border border-line bg-shell px-6 py-12 text-center shadow-soft sm:px-10 sm:py-16">
+        <div className="rounded-[var(--radius-soft)]">
           <h2 className="text-[clamp(1.9rem,5vw,2.75rem)]">say hi</h2>
 
-          <p className="mx-auto mt-3 max-w-sm leading-relaxed text-ink/70">
-            i prefer email for the fastest response.
-          </p>
 
           <a
             href={`mailto:${profile.email}`}
