@@ -210,12 +210,40 @@ function Detail({
             ))}
           </ul>
 
-          <div className="mt-6 space-y-4">
-            {project.description.map((paragraph, i) => (
-              <p key={i} className="leading-relaxed text-ink/80">
-                {paragraph}
-              </p>
-            ))}
+          <div className="mt-6 grid gap-6 sm:grid-cols-[1fr_auto] sm:gap-8">
+            <div className="space-y-4">
+              {project.description.map((paragraph, i) => (
+                <p key={i} className="leading-relaxed text-ink/80">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+
+            {project.links && project.links.length > 0 && (
+              <div className="sm:w-36 sm:shrink-0 sm:border-l sm:border-line sm:pl-6">
+                <p className="chrome text-xs text-muted">links</p>
+                <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1.5 sm:flex-col sm:gap-2">
+                  {project.links.map((link) => (
+                    <li key={link.label}>
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="chrome group/link inline-flex items-center gap-1 text-sm text-navy underline decoration-navy/25 underline-offset-4 transition-colors hover:decoration-navy"
+                      >
+                        {link.label}
+                        <span
+                          aria-hidden="true"
+                          className="transition-transform group-hover/link:translate-x-0.5"
+                        >
+                          →
+                        </span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
 
           <div className="mt-8 space-y-4">
@@ -233,22 +261,6 @@ function Detail({
             ))}
           </div>
 
-          {project.links && project.links.length > 0 && (
-            <ul className="mt-8 flex flex-wrap gap-2.5 border-t border-line pt-6">
-              {project.links.map((link) => (
-                <li key={link.label}>
-                  <a
-                    href={link.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="chrome inline-block rounded-full bg-navy px-5 py-2.5 text-sm text-shell transition-all hover:-translate-y-0.5 hover:shadow-lift"
-                  >
-                    {link.label} →
-                  </a>
-                </li>
-              ))}
-            </ul>
-          )}
         </div>
       </div>
     </div>

@@ -93,7 +93,7 @@ export const projects: Project[] = [
     role: "research intern",
     tags: ["python", "numpy", "pytorch"],
     cover: "/projects/project-4.jpg",
-    shots: ["/projects/project-4-2.jpg"],
+    shots: ["/projects/project-4-2.jpg", "/projects/project-4.jpg"],
     description: ["analyzed binary star systems (potential black holes)", 
       "made a filtering pipeline to preprocess + validate time-series data, and used mcmc methods to process radial velocity data",
     ],
