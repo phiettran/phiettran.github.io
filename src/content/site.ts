@@ -63,8 +63,8 @@ export const projects: Project[] = [
     year: "2025",
     role: "team of 4",
     tags: ["React", "Node.js", "Express", "PostgreSQL", "Socket.io"],
-    cover: "/projects/coming-soon.svg",
-    shots: ["/projects/coming-soon.svg"],
+    cover: "/projects/studysearcher.mp4",
+    shots: ["/projects/studysearcher.mp4"],
     description: [
       "PERN study-partner platform w/ messaging, profile matching, moderation, etc.",
       "Designed front-end, matching algorithm, end-to-end messaging, and notification system",
