@@ -119,15 +119,6 @@ body::after {
   filter: drop-shadow(0 18px 34px rgb(34 49 74 / 0.16));
 }
 
-/* The music card is deliberately flat, so it lifts without the pile's
-   drop-shadow — and without scaling, which would blur its dot grid. */
-.pile-item--tech:hover,
-.pile-item--tech:focus-visible,
-.pile-item--tech:focus-within {
-  transform: translateY(-4px);
-  filter: none;
-}
-
 /* Narrow screens get a gentler, mostly-vertical stack — a full scatter is
    unreadable at phone width. */
 @media (max-width: 640px) {

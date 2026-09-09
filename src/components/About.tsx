@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { facts, trivia, photos, spotify } from "@/content/site";
+import { facts, trivia, photos } from "@/content/site";
 import SectionHead from "./SectionHead";
 import NowPlaying from "./NowPlaying";
 
@@ -14,8 +14,7 @@ function seeded(i: number, salt: number) {
 type Item =
   | { kind: "fact"; label: string; value: string }
   | { kind: "note"; index: number; text: string }
-  | { kind: "photo"; src: string; alt: string; caption?: string }
-  | { kind: "spotify" };
+  | { kind: "photo"; src: string; alt: string; caption?: string };
 
 /* Weave the photos through the text so the pile does not end up as a block
    of writing with a block of pictures stuck on the end. */
@@ -34,12 +33,6 @@ function buildPile(): Item[] {
     if ((i + 1) % every === 0 && p < pics.length) out.push(pics[p++]);
   });
   while (p < pics.length) out.push(pics[p++]);
-
-  /* Leads the pile rather than sitting in its own column — a column left a
-     tall gap beneath it once the card ran out. Here it is just the first
-     card, wider and upright, so it still carries the most weight. */
-  if (spotify.endpoint) out.unshift({ kind: "spotify" });
-
   return out;
 }
 
@@ -53,18 +46,18 @@ export default function About() {
       <div className="mx-auto max-w-5xl">
         <SectionHead title="about me" />
 
-        <div className="pile mt-10">
+        {/* Deliberately outside the pile. At pile scale it either got lost
+            among the cards or, sized up, covered their text — the scatter
+            only reads as a stack while every card is about the same size. */}
+        <NowPlaying className="mt-8 w-full max-w-[24rem]" />
+
+        <div className="pile mt-8">
           {pile.map((item, i) => {
-            /* The music card sits square and wider than the rest: upright
-               among tilted cards is what makes it read as the anchor. */
-            const isSpotify = item.kind === "spotify";
-            const rot = isSpotify ? 0 : (seeded(i, 1) * 2 - 1) * 6.5;
-            const mt = isSpotify ? 0 : -seeded(i, 2) * 26;
-            const ml = isSpotify ? 0 : -seeded(i, 3) * 30;
-            const z = isSpotify ? 30 : Math.floor(seeded(i, 4) * 20) + 1;
-            const width = isSpotify
-              ? "25rem"
-              : WIDTHS[Math.floor(seeded(i, 5) * WIDTHS.length)];
+            const rot = (seeded(i, 1) * 2 - 1) * 6.5;
+            const mt = -seeded(i, 2) * 26;
+            const ml = -seeded(i, 3) * 30;
+            const z = Math.floor(seeded(i, 4) * 20) + 1;
+            const width = WIDTHS[Math.floor(seeded(i, 5) * WIDTHS.length)];
 
             const style = {
               "--rot": `${rot.toFixed(2)}deg`,
@@ -73,16 +66,6 @@ export default function About() {
               "--ml": `${ml.toFixed(1)}px`,
               width,
             } as React.CSSProperties;
-
-            if (item.kind === "spotify") {
-              return (
-                <NowPlaying
-                  key={`s-${i}`}
-                  className="pile-item pile-item--tech"
-                  style={style}
-                />
-              );
-            }
 
             if (item.kind === "photo") {
               return (

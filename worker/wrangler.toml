@@ -3,9 +3,11 @@ main = "src/index.js"
 compatibility_date = "2025-09-01"
 
 [vars]
-# Comma-separated list of sites allowed to read this endpoint.
-# Replace with your GitHub Pages URL (and your custom domain, if any).
-ALLOWED_ORIGINS = "https://phiettran.github.io"
+# Comma-separated list of sites allowed to read this endpoint. The first
+# entry is the fallback returned to any origin not on the list.
+# The localhost entries are for `npm run dev`; drop them if you ever want
+# the endpoint readable only from the deployed site.
+ALLOWED_ORIGINS = "https://phiettran.github.io,http://localhost:3000,http://127.0.0.1:3000"
 
 # The three credentials are NOT set here — they are secrets. Set them with:
 #   npx wrangler secret put SPOTIFY_CLIENT_ID

@@ -140,7 +140,7 @@ export default function NowPlaying({
   const lit = Math.round((pct / 100) * SEGMENTS);
 
   const card = (
-    <div className="tech-card px-4 py-3.5 sm:px-5 sm:py-4">
+    <div className="tech-card px-4 py-3.5">
       {/* status line */}
       <div className="flex items-center gap-2">
         <SpotifyGlyph className="h-3.5 w-3.5 shrink-0 text-spotify" />
@@ -158,7 +158,7 @@ export default function NowPlaying({
         )}
       </div>
 
-      <div className="mt-3.5 flex items-start gap-3.5">
+      <div className="mt-3 flex items-center gap-3.5">
         {track.albumArt && (
           /* Plain <img>: the host is Spotify's CDN, which changes per track,
              and next/image is unoptimized in this export anyway. */
@@ -169,61 +169,60 @@ export default function NowPlaying({
             width={240}
             height={240}
             loading="lazy"
-            className="h-[6.5rem] w-[6.5rem] shrink-0 rounded-[3px] border border-line object-cover"
+            className="h-[5.25rem] w-[5.25rem] shrink-0 rounded-[3px] border border-line object-cover"
           />
         )}
 
         <div className="min-w-0 flex-1">
-          <p className="truncate text-[1.05rem] leading-snug font-medium text-ink">
+          <p className="truncate text-[1.02rem] leading-snug font-medium text-ink">
             {track.title}
           </p>
-          <p className="truncate text-sm leading-snug text-muted">{track.artist}</p>
-          {track.album && track.album !== track.title && (
-            <p className="chrome truncate text-[0.7rem] text-steel">{track.album}</p>
-          )}
-
-          {/* Segmented meter, but only while something is actually playing —
-              a filled bar on a finished track would be inventing a position. */}
-          {track.isPlaying && track.durationMs ? (
-            <div className="mt-3">
-              <div className="flex items-end gap-[2px]" aria-hidden="true">
-                {Array.from({ length: SEGMENTS }, (_, i) => (
-                  <span
-                    key={i}
-                    className={`h-2 flex-1 rounded-[1px] transition-colors duration-300 ${
-                      i < lit ? "bg-spotify" : "bg-mist"
-                    }`}
-                  />
-                ))}
-              </div>
-              <div className="mt-1.5 flex justify-between font-mono text-[0.68rem] tabular-nums text-steel">
-                <span>{clock(elapsed)}</span>
-                <span>{clock(track.durationMs)}</span>
-              </div>
-            </div>
-          ) : (
-            track.durationMs && (
-              <p className="mt-3 font-mono text-[0.68rem] tabular-nums text-steel">
-                {clock(track.durationMs)}
-              </p>
-            )
-          )}
+          <p className="truncate text-[0.85rem] leading-snug text-muted">
+            {track.artist}
+          </p>
+          {/* Album and runtime share a line — on two they left the card
+              looking half-empty. */}
+          <p className="chrome truncate text-[0.7rem] text-steel">
+            {[track.album !== track.title ? track.album : null,
+              !track.isPlaying && track.durationMs ? clock(track.durationMs) : null]
+              .filter(Boolean)
+              .join(" · ")}
+          </p>
         </div>
-      </div>
 
-      {/* The whole card is the link, so this is the affordance for it — not
-          a transport control. Nothing here can drive my playback, and a
-          button that pretended to would be a dead control. */}
-      <div className="mt-3.5 flex items-center gap-2.5 border-t border-line pt-3">
-        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-navy text-cream transition-transform duration-300 group-hover:scale-110">
+        {/* The whole card is the link, so this is the affordance for it — not
+            a transport control. Nothing here can drive my playback, and a
+            button that pretended to would be a dead control. */}
+        <span
+          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-navy text-cream transition-transform duration-300 group-hover:scale-110"
+          title={track.isPlaying ? "play on spotify" : "open on spotify"}
+        >
           <svg viewBox="0 0 24 24" className="ml-0.5 h-3.5 w-3.5" fill="currentColor" aria-hidden="true">
             <path d="M8 5v14l11-7z" />
           </svg>
         </span>
-        <span className="chrome text-[0.8rem] text-muted transition-colors group-hover:text-ink">
-          {track.isPlaying ? "play on spotify" : "open on spotify"}
-        </span>
       </div>
+
+      {/* Segmented meter, but only while something is actually playing —
+          a filled bar on a finished track would be inventing a position. */}
+      {track.isPlaying && track.durationMs && (
+        <div className="mt-3.5">
+          <div className="flex items-end gap-[2px]" aria-hidden="true">
+            {Array.from({ length: SEGMENTS }, (_, i) => (
+              <span
+                key={i}
+                className={`h-2 flex-1 rounded-[1px] transition-colors duration-300 ${
+                  i < lit ? "bg-spotify" : "bg-mist"
+                }`}
+              />
+            ))}
+          </div>
+          <div className="mt-1.5 flex justify-between font-mono text-[0.68rem] tabular-nums text-steel">
+            <span>{clock(elapsed)}</span>
+            <span>{clock(track.durationMs)}</span>
+          </div>
+        </div>
+      )}
     </div>
   );
 
