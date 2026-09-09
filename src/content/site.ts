@@ -79,10 +79,10 @@ export const projects: Project[] = [
     tags: ["matplotlib", "pandas", "numpy"],
     cover: "/projects/project-3.jpg",
     shots: ["/projects/project-3-1.jpg", "/projects/project-3-2.jpg"],
+    links: [{label: 'article', href: "https://ucladatares.medium.com/what-the-data-says-about-scrolling-sleep-and-mental-health-689e828be4fd"}],
     description: [
        "analysis on a chrome extension tracking user activity on youtube",
-      "Engineered data cleaning pipeline using engagement and watch-time validity filters and led a statistical analysis on screen time, sleep quality, and stress",
-      "https://ucladatares.medium.com/what-the-data-says-about-scrolling-sleep-and-mental-health-689e828be4fd"
+      "Engineered data cleaning pipeline using engagement and watch-time validity filters and led a statistical analysis on screen time, sleep quality, and stress"
     ]
   },
   {
@@ -94,6 +94,7 @@ export const projects: Project[] = [
     tags: ["python", "numpy", "pytorch"],
     cover: "/projects/project-4.jpg",
     shots: ["/projects/project-4-2.jpg", "/projects/project-4.jpg"],
+    links: [ {label: 'paper', href: "https://arxiv.org/abs/2412.06130"}] ,
     description: ["analyzed binary star systems (potential black holes)", 
       "made a filtering pipeline to preprocess + validate time-series data, and used mcmc methods to process radial velocity data",
     ],
