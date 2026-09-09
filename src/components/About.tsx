@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { facts, trivia, photos, spotify } from "@/content/site";
+import { facts, trivia, photos } from "@/content/site";
 import SectionHead from "./SectionHead";
 import NowPlaying from "./NowPlaying";
 
@@ -14,8 +14,7 @@ function seeded(i: number, salt: number) {
 type Item =
   | { kind: "fact"; label: string; value: string }
   | { kind: "note"; index: number; text: string }
-  | { kind: "photo"; src: string; alt: string; caption?: string }
-  | { kind: "spotify" };
+  | { kind: "photo"; src: string; alt: string; caption?: string };
 
 /* Weave the photos through the text so the pile does not end up as a block
    of writing with a block of pictures stuck on the end. */
@@ -34,11 +33,6 @@ function buildPile(): Item[] {
     if ((i + 1) % every === 0 && p < pics.length) out.push(pics[p++]);
   });
   while (p < pics.length) out.push(pics[p++]);
-
-  /* The music card is placed rather than scattered — near the top, where
-     it reads as a live detail about me instead of getting buried. */
-  if (spotify.endpoint) out.splice(Math.min(2, out.length), 0, { kind: "spotify" });
-
   return out;
 }
 
@@ -49,21 +43,22 @@ export default function About() {
 
   return (
     <section id="about" className="overflow-hidden px-5 py-16 sm:px-8 sm:py-24">
-      <div className="mx-auto max-w-5xl">
+      <div className="mx-auto max-w-6xl">
         <SectionHead title="about me" />
 
-        <div className="pile mt-10">
+        {/* Flex, not grid: when there is nothing playing NowPlaying renders
+            nothing at all, and the pile should reclaim the full width rather
+            than sit beside an empty column. */}
+        <div className="mt-10 flex flex-col items-start gap-8 lg:flex-row lg:gap-12">
+          <NowPlaying className="w-full lg:sticky lg:top-24 lg:w-[19rem] lg:shrink-0" />
+
+          <div className="pile min-w-0 flex-1">
           {pile.map((item, i) => {
             const rot = (seeded(i, 1) * 2 - 1) * 6.5;
             const mt = -seeded(i, 2) * 26;
             const ml = -seeded(i, 3) * 30;
             const z = Math.floor(seeded(i, 4) * 20) + 1;
-            /* The music card carries album art and two lines of metadata,
-               so it gets a fixed width instead of a random one. */
-            const width =
-              item.kind === "spotify"
-                ? "18.5rem"
-                : WIDTHS[Math.floor(seeded(i, 5) * WIDTHS.length)];
+            const width = WIDTHS[Math.floor(seeded(i, 5) * WIDTHS.length)];
 
             const style = {
               "--rot": `${rot.toFixed(2)}deg`,
@@ -72,10 +67,6 @@ export default function About() {
               "--ml": `${ml.toFixed(1)}px`,
               width,
             } as React.CSSProperties;
-
-            if (item.kind === "spotify") {
-              return <NowPlaying key={`s-${i}`} className="pile-item" style={style} />;
-            }
 
             if (item.kind === "photo") {
               return (
@@ -122,6 +113,7 @@ export default function About() {
               </div>
             );
           })}
+          </div>
         </div>
       </div>
     </section>

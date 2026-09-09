@@ -11,6 +11,7 @@
   --color-navy: #37547f;
   --color-steel: #7d93b0;
   --color-mist: #e6ecf4;
+  --color-spotify: #1db954;
 
   --font-display: var(--font-grotesk), ui-sans-serif, system-ui, sans-serif;
   --font-body: var(--font-dmsans), ui-sans-serif, system-ui, sans-serif;
@@ -137,15 +138,14 @@ body::after {
   display: inline-flex;
   align-items: flex-end;
   gap: 2px;
-  height: 0.7rem;
-  width: 0.75rem;
+  height: 0.75rem;
+  width: 0.8rem;
 }
 
 .eq i {
   flex: 1;
   border-radius: 1px;
-  background: var(--color-navy);
-  opacity: 0.75;
+  background: var(--color-spotify);
   transform-origin: bottom;
   animation: eq-bounce 900ms ease-in-out infinite;
 }
