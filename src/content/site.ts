@@ -82,6 +82,7 @@ export const projects: Project[] = [
     description: [
        "analysis on a chrome extension tracking user activity on youtube",
       "Engineered data cleaning pipeline using engagement and watch-time validity filters and led a statistical analysis on screen time, sleep quality, and stress",
+      'https://ucladatares.medium.com/what-the-data-says-about-scrolling-sleep-and-mental-health-689e828be4fd'
     ]
   },
   {
@@ -102,9 +103,8 @@ export const projects: Project[] = [
 /* The label/value table. The part people actually remember. */
 export const facts = [
   { label: "currently", value: "building ampedai" },
-  { label: "looping", value: "Mk.gee - Two Star and the Dream Police" },
+  { label: "favorite album", value: "Mk.gee - Two Star and the Dream Police" },
   { label: "", value: "i like working out" },
-  { label: "", value: "big fashion demon" },
 ];
 
 /* Rapid-fire list. Short and a little unhinged. */
