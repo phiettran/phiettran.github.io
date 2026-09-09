@@ -119,6 +119,15 @@ body::after {
   filter: drop-shadow(0 18px 34px rgb(34 49 74 / 0.16));
 }
 
+/* The music card is deliberately flat, so it lifts without the pile's
+   drop-shadow — and without scaling, which would blur its dot grid. */
+.pile-item--tech:hover,
+.pile-item--tech:focus-visible,
+.pile-item--tech:focus-within {
+  transform: translateY(-4px);
+  filter: none;
+}
+
 /* Narrow screens get a gentler, mostly-vertical stack — a full scatter is
    unreadable at phone width. */
 @media (max-width: 640px) {
@@ -130,6 +139,56 @@ body::after {
   }
   .pile-item:nth-child(odd) { --rot: -1.4deg; }
   .pile-item:nth-child(even) { --rot: 1.4deg; }
+}
+
+/* ---- Now playing: a "techy" frame, tuned to the particle name ----
+   No soft shadow. The card sits on the same dot grid the name is
+   rasterised into, inside a hairline rule with HUD corner brackets that
+   sharpen on hover — crisp edges instead of diffuse elevation. */
+
+.tech-card {
+  position: relative;
+  border-radius: 3px;
+  border: 1px solid var(--color-line);
+  background-color: var(--color-shell);
+  background-image: radial-gradient(rgb(125 147 176 / 0.17) 0.5px, transparent 0.5px);
+  background-size: 6px 6px;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+/* Two opposite corners, not four — a frame, not a box. */
+.tech-card::before,
+.tech-card::after {
+  content: "";
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  opacity: 0.45;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.tech-card::before {
+  top: -1px;
+  left: -1px;
+  border-top: 1.5px solid var(--color-navy);
+  border-left: 1.5px solid var(--color-navy);
+}
+.tech-card::after {
+  right: -1px;
+  bottom: -1px;
+  border-right: 1.5px solid var(--color-navy);
+  border-bottom: 1.5px solid var(--color-navy);
+}
+
+.group:hover .tech-card,
+.group:focus-visible .tech-card {
+  border-color: var(--color-steel);
+}
+.group:hover .tech-card::before,
+.group:hover .tech-card::after,
+.group:focus-visible .tech-card::before,
+.group:focus-visible .tech-card::after {
+  opacity: 1;
 }
 
 /* ---- Now playing: three bars that bounce while music is playing ---- */

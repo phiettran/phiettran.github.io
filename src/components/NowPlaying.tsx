@@ -17,6 +17,10 @@ type Track = {
   playedAt: string | null;
 };
 
+/* The progress meter is drawn as discrete cells rather than a smooth bar,
+   to rhyme with the particle grid the name is sampled onto. */
+const SEGMENTS = 26;
+
 /* 154_000 -> "2:34" */
 function clock(ms: number) {
   const total = Math.max(0, Math.round(ms / 1000));
@@ -42,17 +46,24 @@ function SpotifyGlyph({ className }: { className?: string }) {
   );
 }
 
-export default function NowPlaying({ className }: { className?: string }) {
+export default function NowPlaying({
+  className,
+  style,
+}: {
+  className?: string;
+  style?: React.CSSProperties;
+}) {
   const [track, setTrack] = useState<Track | null>(null);
   const [elapsed, setElapsed] = useState(0);
 
   useEffect(() => {
     if (!spotify.endpoint) return;
 
-    // A fetch in flight when the component unmounts (or when the next poll
-    // fires) must not write stale state over fresh state.
+    // A fetch in flight when the component unmounts must not write stale
+    // state over fresh state.
     let alive = true;
     const controller = new AbortController();
+    let timer: ReturnType<typeof setInterval> | undefined;
 
     async function load() {
       try {
@@ -71,17 +82,36 @@ export default function NowPlaying({ className }: { className?: string }) {
       }
     }
 
-    load();
-    const id = setInterval(load, spotify.pollSeconds * 1000);
+    /* A backgrounded tab has nobody looking at it, so polling it is pure
+       waste — of the Worker's request budget and of the visitor's battery.
+       Poll only while the tab is actually in front, and refresh once on the
+       way back so the card is never visibly stale. */
+    function start() {
+      if (timer) return;
+      load();
+      timer = setInterval(load, spotify.pollSeconds * 1000);
+    }
+    function stop() {
+      clearInterval(timer);
+      timer = undefined;
+    }
+    function onVisibility() {
+      if (document.hidden) stop();
+      else start();
+    }
+
+    if (!document.hidden) start();
+    document.addEventListener("visibilitychange", onVisibility);
 
     return () => {
       alive = false;
       controller.abort();
-      clearInterval(id);
+      stop();
+      document.removeEventListener("visibilitychange", onVisibility);
     };
   }, []);
 
-  /* The Worker is only polled every 30s, so a bar driven straight off
+  /* The Worker is only polled every 30s, so a meter driven straight off
      `progressMs` would sit frozen and then jump. Advance it locally off the
      wall clock between polls; each poll then resyncs the true position. */
   useEffect(() => {
@@ -99,21 +129,22 @@ export default function NowPlaying({ className }: { className?: string }) {
   }, [track]);
 
   /* Nothing to show yet — and nothing to show ever, if the endpoint is
-     unset or the Worker is unreachable. Rendering null drops the whole
-     column so the pile beside it simply takes the full width. */
+     unset or the Worker is unreachable. Rendering null removes the card
+     from the pile entirely rather than leaving a blank frame in it. */
   if (!track) return null;
 
   const pct =
     track.isPlaying && track.durationMs
       ? Math.min(100, (elapsed / track.durationMs) * 100)
       : 0;
+  const lit = Math.round((pct / 100) * SEGMENTS);
 
   const card = (
-    <div className="rounded-[var(--radius-soft)] border border-line bg-shell p-4 shadow-soft transition-shadow duration-300 group-hover:shadow-lift sm:p-5">
+    <div className="tech-card px-4 py-3.5 sm:px-5 sm:py-4">
       {/* status line */}
       <div className="flex items-center gap-2">
-        <SpotifyGlyph className="h-4 w-4 shrink-0 text-spotify" />
-        <p className="chrome text-xs text-muted">
+        <SpotifyGlyph className="h-3.5 w-3.5 shrink-0 text-spotify" />
+        <p className="chrome text-[0.7rem] tracking-wide text-muted">
           {track.isPlaying
             ? "now playing"
             : track.playedAt
@@ -127,79 +158,90 @@ export default function NowPlaying({ className }: { className?: string }) {
         )}
       </div>
 
-      {/* album art — the anchor of the card */}
-      {track.albumArt && (
-        /* Plain <img>: the host is Spotify's CDN, which changes per track,
-           and next/image is unoptimized in this export anyway. */
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={track.albumArt}
-          alt={track.album ? `${track.album} cover art` : ""}
-          width={400}
-          height={400}
-          loading="lazy"
-          className="mt-4 aspect-square w-full rounded-xl border border-line object-cover shadow-soft"
-        />
-      )}
-
-      <div className="mt-4">
-        <p className="truncate text-lg leading-snug font-medium text-ink">
-          {track.title}
-        </p>
-        <p className="truncate text-sm leading-snug text-muted">{track.artist}</p>
-        {track.album && track.album !== track.title && (
-          <p className="chrome mt-0.5 truncate text-xs text-steel">{track.album}</p>
+      <div className="mt-3.5 flex items-start gap-3.5">
+        {track.albumArt && (
+          /* Plain <img>: the host is Spotify's CDN, which changes per track,
+             and next/image is unoptimized in this export anyway. */
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={track.albumArt}
+            alt={track.album ? `${track.album} cover art` : ""}
+            width={240}
+            height={240}
+            loading="lazy"
+            className="h-[6.5rem] w-[6.5rem] shrink-0 rounded-[3px] border border-line object-cover"
+          />
         )}
-      </div>
 
-      {/* Scrubber, but only while something is actually playing — a static
-          bar on a finished track would be inventing a position. */}
-      {track.isPlaying && track.durationMs ? (
-        <div className="mt-4">
-          <div className="h-1 w-full overflow-hidden rounded-full bg-mist">
-            <div
-              className="h-full rounded-full bg-spotify transition-[width] duration-1000 ease-linear"
-              style={{ width: `${pct}%` }}
-            />
-          </div>
-          <div className="chrome mt-1.5 flex justify-between text-[0.7rem] tabular-nums text-steel">
-            <span>{clock(elapsed)}</span>
-            <span>{clock(track.durationMs)}</span>
-          </div>
-        </div>
-      ) : (
-        track.durationMs && (
-          <p className="chrome mt-4 text-[0.7rem] tabular-nums text-steel">
-            {clock(track.durationMs)}
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-[1.05rem] leading-snug font-medium text-ink">
+            {track.title}
           </p>
-        )
-      )}
+          <p className="truncate text-sm leading-snug text-muted">{track.artist}</p>
+          {track.album && track.album !== track.title && (
+            <p className="chrome truncate text-[0.7rem] text-steel">{track.album}</p>
+          )}
+
+          {/* Segmented meter, but only while something is actually playing —
+              a filled bar on a finished track would be inventing a position. */}
+          {track.isPlaying && track.durationMs ? (
+            <div className="mt-3">
+              <div className="flex items-end gap-[2px]" aria-hidden="true">
+                {Array.from({ length: SEGMENTS }, (_, i) => (
+                  <span
+                    key={i}
+                    className={`h-2 flex-1 rounded-[1px] transition-colors duration-300 ${
+                      i < lit ? "bg-spotify" : "bg-mist"
+                    }`}
+                  />
+                ))}
+              </div>
+              <div className="mt-1.5 flex justify-between font-mono text-[0.68rem] tabular-nums text-steel">
+                <span>{clock(elapsed)}</span>
+                <span>{clock(track.durationMs)}</span>
+              </div>
+            </div>
+          ) : (
+            track.durationMs && (
+              <p className="mt-3 font-mono text-[0.68rem] tabular-nums text-steel">
+                {clock(track.durationMs)}
+              </p>
+            )
+          )}
+        </div>
+      </div>
 
       {/* The whole card is the link, so this is the affordance for it — not
           a transport control. Nothing here can drive my playback, and a
           button that pretended to would be a dead control. */}
-      <div className="mt-4 flex items-center gap-2.5 border-t border-line pt-4">
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-navy text-cream transition-transform duration-300 group-hover:scale-105">
-          <svg viewBox="0 0 24 24" className="ml-0.5 h-4 w-4" fill="currentColor" aria-hidden="true">
+      <div className="mt-3.5 flex items-center gap-2.5 border-t border-line pt-3">
+        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-navy text-cream transition-transform duration-300 group-hover:scale-110">
+          <svg viewBox="0 0 24 24" className="ml-0.5 h-3.5 w-3.5" fill="currentColor" aria-hidden="true">
             <path d="M8 5v14l11-7z" />
           </svg>
         </span>
-        <span className="chrome text-sm text-muted transition-colors group-hover:text-ink">
+        <span className="chrome text-[0.8rem] text-muted transition-colors group-hover:text-ink">
           {track.isPlaying ? "play on spotify" : "open on spotify"}
         </span>
       </div>
     </div>
   );
 
-  if (!track.url) return <div className={className}>{card}</div>;
+  if (!track.url) {
+    return (
+      <div className={className} style={style}>
+        {card}
+      </div>
+    );
+  }
 
   return (
-    <div className={className}>
+    <div className={className} style={style}>
       <a
         href={track.url}
         target="_blank"
         rel="noreferrer"
-        className="group block rounded-[var(--radius-soft)] outline-none focus-visible:ring-2 focus-visible:ring-navy/40 focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+        className="group block rounded-[3px] outline-none focus-visible:ring-2 focus-visible:ring-navy/40 focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
         aria-label={`${track.title} by ${track.artist} — open on Spotify`}
       >
         {card}
