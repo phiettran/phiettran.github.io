@@ -10,12 +10,7 @@ export default function Nav() {
   return (
     <header className="sticky top-0 z-50 border-b border-line/70 bg-cream/85 backdrop-blur-md">
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-5 py-3.5 sm:px-8">
-        <a
-          href="#top"
-          className="font-script text-2xl text-ink transition-colors hover:text-navy"
-        >
-          {profile.name}
-        </a>
+        <a href="#top">{profile.name}</a>
 
         <ul className="flex items-center gap-1">
           {links.map((link) => (

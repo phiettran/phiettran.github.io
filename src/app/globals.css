@@ -14,7 +14,7 @@
 
   --font-display: var(--font-grotesk), ui-sans-serif, system-ui, sans-serif;
   --font-body: var(--font-dmsans), ui-sans-serif, system-ui, sans-serif;
-  --font-script: var(--font-hand), "Bradley Hand", cursive;
+  --font-script: var(--font-hand), "Bradley Hand";
 
   --radius-soft: 1.25rem;
 
