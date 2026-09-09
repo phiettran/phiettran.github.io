@@ -82,7 +82,7 @@ export const projects: Project[] = [
     description: [
        "analysis on a chrome extension tracking user activity on youtube",
       "Engineered data cleaning pipeline using engagement and watch-time validity filters and led a statistical analysis on screen time, sleep quality, and stress",
-      'https://ucladatares.medium.com/what-the-data-says-about-scrolling-sleep-and-mental-health-689e828be4fd'
+      "https://ucladatares.medium.com/what-the-data-says-about-scrolling-sleep-and-mental-health-689e828be4fd"
     ]
   },
   {
