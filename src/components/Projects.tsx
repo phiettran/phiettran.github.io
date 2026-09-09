@@ -1,9 +1,84 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import Image from "next/image";
 import { projects, type Project } from "@/content/site";
 import SectionHead from "./SectionHead";
+
+const MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+
+/* Subscribes to the OS motion setting without setting state in an effect,
+   and reports false on the server so markup matches on hydration. */
+function useReducedMotion() {
+  return useSyncExternalStore(
+    (onChange) => {
+      const mq = window.matchMedia(MOTION_QUERY);
+      mq.addEventListener("change", onChange);
+      return () => mq.removeEventListener("change", onChange);
+    },
+    () => window.matchMedia(MOTION_QUERY).matches,
+    () => false,
+  );
+}
+
+const VIDEO_EXT = /\.(mp4|webm|mov)$/i;
+
+/**
+ * Project media can be a still or a clip. Videos autoplay silently and loop
+ * so a card reads like an animated preview, but anyone who has asked for
+ * reduced motion gets a paused player with controls instead.
+ */
+function Media({
+  src,
+  alt,
+  fill = false,
+  className = "",
+}: {
+  src: string;
+  alt: string;
+  fill?: boolean;
+  className?: string;
+}) {
+  const reduced = useReducedMotion();
+
+  if (VIDEO_EXT.test(src)) {
+    return (
+      <video
+        src={src}
+        aria-label={alt}
+        autoPlay={!reduced}
+        loop={!reduced}
+        muted
+        playsInline
+        controls={reduced}
+        preload="metadata"
+        className={fill ? `absolute inset-0 h-full w-full ${className}` : className}
+      />
+    );
+  }
+
+  if (fill) {
+    return (
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        sizes="(max-width: 640px) 100vw, 50vw"
+        className={className}
+      />
+    );
+  }
+
+  return (
+    <Image src={src} alt={alt} width={800} height={600} className={className} />
+  );
+}
 
 export default function Projects() {
   const [active, setActive] = useState<Project | null>(null);
@@ -45,11 +120,10 @@ export default function Projects() {
               className="group block cursor-pointer overflow-hidden rounded-[var(--radius-soft)] border border-line bg-shell text-left shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-lift focus:outline-none focus-visible:ring-2 focus-visible:ring-navy/45 focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
             >
               <div className="relative aspect-[4/3] overflow-hidden bg-mist/50">
-                <Image
+                <Media
                   src={project.cover}
                   alt={`${project.title} preview`}
                   fill
-                  sizes="(max-width: 640px) 100vw, 50vw"
                   className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                 />
               </div>
@@ -150,11 +224,9 @@ function Detail({
                 key={i}
                 className="overflow-hidden rounded-[calc(var(--radius-soft)-0.3rem)] border border-line"
               >
-                <Image
+                <Media
                   src={shot}
                   alt={`${project.title} screenshot ${i + 1}`}
-                  width={800}
-                  height={600}
                   className="block h-auto w-full"
                 />
               </div>

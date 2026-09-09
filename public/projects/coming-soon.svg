@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <rect width="800" height="600" fill="#e6ecf4"/>
+  <rect x="60" y="60" width="680" height="480" rx="18" fill="none" stroke="#c9d4e4" stroke-width="3" stroke-dasharray="14 12"/>
+  <circle cx="400" cy="268" r="52" fill="none" stroke="#8fa0b8" stroke-width="4"/>
+  <path d="M378 268 l16 16 l30 -34" fill="none" stroke="#8fa0b8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="400" y="378" font-family="ui-sans-serif, system-ui, sans-serif" font-size="26"
+        fill="#5f6e88" text-anchor="middle">screenshot coming soon</text>
+</svg>

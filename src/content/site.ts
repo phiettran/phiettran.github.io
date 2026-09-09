@@ -63,8 +63,8 @@ export const projects: Project[] = [
     year: "2025",
     role: "team of 4",
     tags: ["React", "Node.js", "Express", "PostgreSQL", "Socket.io"],
-    cover: "/projects/placeholder-02.svg",
-    shots: ["/projects/placeholder-02.svg", "/projects/placeholder-03.svg"],
+    cover: "/projects/coming-soon.svg",
+    shots: ["/projects/coming-soon.svg"],
     description: [
       "PERN study-partner platform w/ messaging, profile matching, moderation, etc.",
       "Designed front-end, matching algorithm, end-to-end messaging, and notification system",
@@ -77,8 +77,8 @@ export const projects: Project[] = [
     year: "2025",
     role: "research",
     tags: ["matplotlib", "pandas", "numpy"],
-    cover: "/projects/placeholder-03.svg",
-    shots: ["/projects/placeholder-03.svg", "/projects/placeholder-01.svg"],
+    cover: "/projects/project-3.jpg",
+    shots: ["/projects/project-3-1.jpg", "/projects/project-3-2.jpg"],
     description: [
        "analysis on a chrome extension tracking user activity on youtube",
       "Engineered data cleaning pipeline using engagement and watch-time validity filters and led a statistical analysis on screen time, sleep quality, and stress",
@@ -91,8 +91,8 @@ export const projects: Project[] = [
     year: "2024",
     role: "research intern",
     tags: ["python", "numpy", "pytorch"],
-    cover: "/projects/placeholder-01.svg",
-    shots: ["/projects/placeholder-01.svg"],
+    cover: "/projects/project-4.jpg",
+    shots: ["/projects/project-4-2.jpg"],
     description: ["analyzed binary star systems (potential black holes)", 
       "made a filtering pipeline to preprocess + validate time-series data, and used mcmc methods to process radial velocity data",
     ],
@@ -118,8 +118,8 @@ export const trivia = [
    and list them here. Add or remove freely — the pile re-scatters itself.
    `caption` is optional; leave it off and no caption strip is drawn. */
 export const photos: { src: string; alt: string; caption?: string }[] = [
-  { src: "/about/photo-01.svg", alt: "replace me", caption: "somewhere, 2026" },
-  { src: "/about/photo-02.svg", alt: "replace me" },
-  { src: "/about/photo-03.svg", alt: "replace me", caption: "the good chair" },
-  { src: "/about/photo-04.svg", alt: "replace me" },
+  { src: "/about/photo-01.jpg", alt: "replace me", caption: "" },
+  { src: "/about/photo-02.jpg", alt: "replace me" },
+  { src: "/about/photo-03.jpg", alt: "replace me", caption: "" },
+  { src: "/about/photo-04.jpg", alt: "replace me" },
 ];

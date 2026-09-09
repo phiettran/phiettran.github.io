@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 880" width="660" height="880">
-  <rect width="660" height="880" fill="#e6ecf4"/>
-  <circle cx="330" cy="367" r="73" fill="#c9d4e4"/>
-  <path d="M0 880 L 220 484 L 440 686 L 660 457 L 660 880 Z" fill="#c9d4e4"/>
-  <text x="330" y="807" font-family="ui-monospace, Menlo, monospace"
-        font-size="30" letter-spacing="2" fill="#5f6e88" text-anchor="middle">photo 02</text>
-</svg>
