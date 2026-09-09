@@ -1,6 +1,7 @@
 import Image from "next/image";
-import { facts, trivia, photos } from "@/content/site";
+import { facts, trivia, photos, spotify } from "@/content/site";
 import SectionHead from "./SectionHead";
+import NowPlaying from "./NowPlaying";
 
 /* Deterministic pseudo-random in [0,1). Math.random() would give the server
    and the browser different layouts and blow up hydration, so the scatter is
@@ -13,7 +14,8 @@ function seeded(i: number, salt: number) {
 type Item =
   | { kind: "fact"; label: string; value: string }
   | { kind: "note"; index: number; text: string }
-  | { kind: "photo"; src: string; alt: string; caption?: string };
+  | { kind: "photo"; src: string; alt: string; caption?: string }
+  | { kind: "spotify" };
 
 /* Weave the photos through the text so the pile does not end up as a block
    of writing with a block of pictures stuck on the end. */
@@ -32,6 +34,11 @@ function buildPile(): Item[] {
     if ((i + 1) % every === 0 && p < pics.length) out.push(pics[p++]);
   });
   while (p < pics.length) out.push(pics[p++]);
+
+  /* The music card is placed rather than scattered — near the top, where
+     it reads as a live detail about me instead of getting buried. */
+  if (spotify.endpoint) out.splice(Math.min(2, out.length), 0, { kind: "spotify" });
+
   return out;
 }
 
@@ -51,7 +58,12 @@ export default function About() {
             const mt = -seeded(i, 2) * 26;
             const ml = -seeded(i, 3) * 30;
             const z = Math.floor(seeded(i, 4) * 20) + 1;
-            const width = WIDTHS[Math.floor(seeded(i, 5) * WIDTHS.length)];
+            /* The music card carries album art and two lines of metadata,
+               so it gets a fixed width instead of a random one. */
+            const width =
+              item.kind === "spotify"
+                ? "18.5rem"
+                : WIDTHS[Math.floor(seeded(i, 5) * WIDTHS.length)];
 
             const style = {
               "--rot": `${rot.toFixed(2)}deg`,
@@ -60,6 +72,10 @@ export default function About() {
               "--ml": `${ml.toFixed(1)}px`,
               width,
             } as React.CSSProperties;
+
+            if (item.kind === "spotify") {
+              return <NowPlaying key={`s-${i}`} className="pile-item" style={style} />;
+            }
 
             if (item.kind === "photo") {
               return (

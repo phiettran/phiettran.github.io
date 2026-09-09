@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // The Cloudflare Worker is a separate project with its own runtime
+    // and its own conventions (a bare `export default {}` handler).
+    "worker/**",
   ]),
 ]);
 

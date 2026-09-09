@@ -123,3 +123,19 @@ export const photos: { src: string; alt: string; caption?: string }[] = [
   { src: "/about/photo-03.jpg", alt: "replace me", caption: "" },
   { src: "/about/photo-04.jpg", alt: "replace me" },
 ];
+
+/* Spotify "now playing" card in the about pile.
+
+   `endpoint` is the public URL of the Cloudflare Worker in /worker —
+   it holds the credentials, so this URL is safe to commit. Leave it as
+   an empty string and the card simply doesn't render, which is what you
+   want until the Worker is deployed. See worker/README.md. */
+export const spotify = {
+  /* `||` not `??`: an unset CI variable arrives as an empty string, and
+     that must fall through to the literal below rather than override it. */
+  endpoint:
+    process.env.NEXT_PUBLIC_SPOTIFY_ENDPOINT ||
+    "https://spotify-now-playing.phiettran.workers.dev",
+  /* How often the browser re-checks, in seconds. */
+  pollSeconds: 30,
+};

@@ -131,6 +131,40 @@ body::after {
   .pile-item:nth-child(even) { --rot: 1.4deg; }
 }
 
+/* ---- Now playing: three bars that bounce while music is playing ---- */
+
+.eq {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 0.7rem;
+  width: 0.75rem;
+}
+
+.eq i {
+  flex: 1;
+  border-radius: 1px;
+  background: var(--color-navy);
+  opacity: 0.75;
+  transform-origin: bottom;
+  animation: eq-bounce 900ms ease-in-out infinite;
+}
+
+/* Staggered so the three bars never move as one block. */
+.eq i:nth-child(2) { animation-delay: 180ms; animation-duration: 1150ms; }
+.eq i:nth-child(3) { animation-delay: 360ms; animation-duration: 780ms; }
+
+@keyframes eq-bounce {
+  0%, 100% { height: 30%; }
+  50%      { height: 100%; }
+}
+
+/* With motion reduced the bars would freeze mid-keyframe at whatever
+   height they happened to hold, which reads as broken. Pin them flat. */
+@media (prefers-reduced-motion: reduce) {
+  .eq i { height: 60%; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .pile-item { transition: none; }
 }

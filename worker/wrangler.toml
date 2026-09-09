@@ -1,0 +1,13 @@
+name = "spotify-now-playing"
+main = "src/index.js"
+compatibility_date = "2025-09-01"
+
+[vars]
+# Comma-separated list of sites allowed to read this endpoint.
+# Replace with your GitHub Pages URL (and your custom domain, if any).
+ALLOWED_ORIGINS = "https://phiettran.github.io"
+
+# The three credentials are NOT set here — they are secrets. Set them with:
+#   npx wrangler secret put SPOTIFY_CLIENT_ID
+#   npx wrangler secret put SPOTIFY_CLIENT_SECRET
+#   npx wrangler secret put SPOTIFY_REFRESH_TOKEN

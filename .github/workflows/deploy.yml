@@ -27,6 +27,11 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+        env:
+          # Public URL of the Spotify Worker. Not a secret — the credentials
+          # live in the Worker. Set it under:
+          # Settings → Secrets and variables → Actions → Variables.
+          NEXT_PUBLIC_SPOTIFY_ENDPOINT: ${{ vars.NEXT_PUBLIC_SPOTIFY_ENDPOINT }}
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
