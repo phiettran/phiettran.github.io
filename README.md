@@ -1,11 +1,7 @@
 # Portfolio
 
-A deliberately loud, brutalist one-page portfolio. Off-white paper, oversized
-Helvetica, hard black borders, blurless shadows, and project cards that expand
-into a full detail view with screenshots.
-
-Built with Next.js 16, React 19 and Tailwind v4. It compiles to a plain static
-site, so it hosts free anywhere.
+Built with Next.js 16, React 19 and Tailwind v4. Compiled to plain static
+site (hosts free anywhere)
 
 ---
 
@@ -28,7 +24,7 @@ Images go in `public/`. That is the whole system.
 | Project screenshots | `public/projects/` |
 | Your resume PDF | `public/resume.pdf` |
 
-### Your links
+### links
 
 In `profile.socials`. Add or remove rows freely — the buttons follow.
 
@@ -99,7 +95,7 @@ Colour tokens are at the top of `src/app/globals.css` under `@theme` —
 fonts are set in `src/app/layout.tsx`: Space Grotesk (headings), DM Sans
 (body), Kalam (the handwritten signature).
 
-## Running it
+## Running
 
 ```bash
 npm run dev
@@ -122,41 +118,3 @@ You need the code in a GitHub repo first:
 ```bash
 git init && git add -A && git commit -m "Initial commit"
 ```
-
-Then create a repo on GitHub and push to it.
-
-### Option A — Vercel or Netlify (easiest)
-
-Import the repo at [vercel.com/new](https://vercel.com/new) or
-[app.netlify.com](https://app.netlify.com). Both auto-detect Next.js, need zero
-configuration, give you a free HTTPS subdomain, and redeploy on every push.
-
-### Option B — GitHub Pages
-
-A workflow is already included at `.github/workflows/deploy.yml`. Enable it
-under **Settings → Pages → Source → "GitHub Actions"**, then push.
-
-One catch: if your site lives at `username.github.io/portfolio` rather than at
-a custom domain, tell Next about the subpath, or every asset 404s. Add to
-`next.config.ts`:
-
-```ts
-basePath: "/portfolio",
-```
-
-Not needed for `username.github.io` itself, or for a custom domain.
-
----
-
-## Notes
-
-- `output: "export"` in `next.config.ts` is what makes this a static site. If
-  you ever add a server feature (API routes, server actions, image
-  optimization), remove that line and deploy to Vercel instead.
-- Colors and type live as tokens at the top of `src/app/globals.css`:
-  `--color-paper`, `--color-ink`, `--color-blood`. Change `--color-blood` to
-  re-key the whole accent in one edit.
-- The page commits to a single light look on purpose — the brutalist poster
-  aesthetic depends on the paper ground, so there is no dark mode.
-- Respects `prefers-reduced-motion`: the ticker and hover transitions stop for
-  anyone who has asked their OS to reduce motion.
