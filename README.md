@@ -94,27 +94,3 @@ Colour tokens are at the top of `src/app/globals.css` under `@theme` —
 `--color-navy` re-keys the accent across the whole site in one edit. The three
 fonts are set in `src/app/layout.tsx`: Space Grotesk (headings), DM Sans
 (body), Kalam (the handwritten signature).
-
-## Running
-
-```bash
-npm run dev
-```
-
-Then open http://localhost:3000.
-
-To produce the static site in `out/`:
-
-```bash
-npm run build
-```
-
----
-
-## Putting it on the web, free
-
-You need the code in a GitHub repo first:
-
-```bash
-git init && git add -A && git commit -m "Initial commit"
-```
